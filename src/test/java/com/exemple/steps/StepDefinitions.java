@@ -9,7 +9,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class StepDefinitions {
 
-    private Response reponse;
+    private final ScenarioContext context;
+
+    public StepDefinitions(ScenarioContext context) {
+        this.context = context;
+    }
 
     @Given("the API is available at {string}")
     public void theApiIsAvailableAt(String baseUrl) {
@@ -19,7 +23,7 @@ public class StepDefinitions {
 
     @When("I send a GET request to {string}")
     public void iSendAGetRequestTo(String endpoint) {
-        reponse = given()
+        Response response = given()
             .header("Content-Type", "application/json")
             .header("Accept", "application/json")
             .when()
@@ -27,19 +31,55 @@ public class StepDefinitions {
             .then()
             .extract()
             .response();
+        context.setResponse(response);
     }
-//
+
+    @When("I send a POST request to {string} with body:")
+    public void iSendAPostRequestTo(String endpoint, String body) {
+        Response response = given()
+            .header("Content-Type", "application/json")
+            .header("Accept", "application/json")
+            .body(body)
+            .when()
+            .post(endpoint)
+            .then()
+            .extract()
+            .response();
+        context.setResponse(response);
+    }
+
     @Then("the response status is {int}")
     public void theResponseStatusIs(int expectedStatus) {
-        assertThat(reponse.getStatusCode())
+        assertThat(context.getResponse().getStatusCode())
             .as("Expected HTTP status: %d", expectedStatus)
             .isEqualTo(expectedStatus);
     }
 
     @And("the response contains a non-empty list")
     public void theResponseContainsANonEmptyList() {
-        assertThat(reponse.jsonPath().getList("$"))
+        assertThat(context.getResponse().jsonPath().getList("$"))
             .as("Response should be a non-empty list")
             .isNotEmpty();
+    }
+
+    @And("the field {string} equals {int}")
+    public void theFieldEqualsInt(String field, int expectedValue) {
+        assertThat(context.getResponse().jsonPath().getInt(field))
+            .as("Field '%s'", field)
+            .isEqualTo(expectedValue);
+    }
+
+    @And("the field {string} equals {string}")
+    public void theFieldEqualsString(String field, String expectedValue) {
+        assertThat(context.getResponse().jsonPath().getString(field))
+            .as("Field '%s'", field)
+            .isEqualTo(expectedValue);
+    }
+
+    @And("the field {string} is not empty")
+    public void theFieldIsNotEmpty(String field) {
+        assertThat(context.getResponse().jsonPath().getString(field))
+            .as("Field '%s' should not be empty", field)
+            .isNotBlank();
     }
 }

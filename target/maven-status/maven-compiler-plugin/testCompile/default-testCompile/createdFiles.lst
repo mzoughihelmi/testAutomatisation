@@ -1,3 +1,5 @@
+com\exemple\steps\PostStepDefinitions.class
+com\exemple\steps\ScenarioContext.class
 com\exemple\steps\StepDefinitions.class
 com\exemple\runner\CucumberRunnerTest.class
 com\exemple\steps\Hooks.class

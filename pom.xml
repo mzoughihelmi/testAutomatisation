@@ -50,6 +50,14 @@
             <version>1.10.1</version>
             <scope>test</scope>
         </dependency>
+        <!-- ===== PICOCONTAINER (injection de dépendances entre steps) ===== -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-picocontainer</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+
         <!--  ===== REST ASSURED =====  -->
         <dependency>
             <groupId>io.rest-assured</groupId>
