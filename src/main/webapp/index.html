@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Application</title>
+
+    <!-- Bootstrap 5.3 CSS (CDN) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+          crossorigin="anonymous">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+          rel="stylesheet">
+</head>
+<body>
+
+    <!-- Barre de navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-app"></i> Mon Application
+            </a>
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Fonctionnalités</a>
+                    </li>
+                </ul>
+                <button class="btn btn-outline-light"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalConnexion">
+                    Connexion
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenu principal -->
+    <main class="container my-5">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="display-4">Bienvenue</h1>
+                <p class="lead text-muted">Application testée avec Cucumber &amp; Gherkin</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal de connexion -->
+    <div class="modal fade" id="modalConnexion" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Connexion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-connexion" novalidate>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Adresse email</label>
+                            <input type="email" class="form-control" id="email"
+                                   placeholder="nom@exemple.com" required>
+                            <div class="invalid-feedback">L'email est obligatoire</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="motdepasse" class="form-label">Mot de passe</label>
+                            <input type="password" class="form-control" id="motdepasse"
+                                   placeholder="••••••••" required>
+                            <div class="invalid-feedback">Le mot de passe est obligatoire</div>
+                        </div>
+                        <div class="alert alert-success d-none" role="alert">
+                            Connexion réussie
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">
+                            Se connecter
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5.3 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+
+    <script>
+        // Validation du formulaire Bootstrap
+        document.getElementById('form-connexion').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const form = this;
+            if (!form.checkValidity()) {
+                form.classList.add('was-validated');
+                return;
+            }
+            document.querySelector('.alert').classList.remove('d-none');
+        });
+    </script>
+
+</body>
+</html>
