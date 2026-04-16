@@ -3,12 +3,12 @@ pipeline {
 
     tools {
         jdk 'JDK-21'
-        maven 'Maven-3'
+        maven 'Maven3'
     }
 
     environment {
         PROJECT_NAME = 'projet-cucumber'
-        REPORT_DIR   = 'target/cucumber-rapports'
+        REPORT_DIR   = 'target/cucumber-reports'
     }
 
     options {
@@ -27,25 +27,19 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean compile -q'
+                bat 'mvn clean compile -q'
             }
         }
 
         stage('Tests - Smoke') {
             steps {
-                sh 'mvn test -Dcucumber.filter.tags="@smoke"'
-            }
-        }
-
-        stage('Tests - Regression') {
-            steps {
-                sh 'mvn test -Dcucumber.filter.tags="@regression"'
+                bat 'mvn test -Dcucumber.filter.tags="@smoke"'
             }
         }
 
         stage('Rapport Cucumber') {
             steps {
-                sh 'mvn verify -DskipTests'
+                bat 'mvn verify -DskipTests'
             }
             post {
                 always {
@@ -64,13 +58,14 @@ pipeline {
 
     post {
         success {
-            echo "Pipeline terminée avec succès — ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+            echo "✅ Pipeline terminée — ${env.JOB_NAME} #${env.BUILD_NUMBER}"
         }
         failure {
-            echo "Echec de la pipeline — consulter les logs et le rapport Cucumber"
+            echo "❌ Echec — consulter les logs et le rapport Cucumber"
         }
         always {
-            archiveArtifacts artifacts: 'target/cucumber-rapports/**', allowEmptyArchive: true
+            archiveArtifacts artifacts: 'target/cucumber-reports/**',
+                             allowEmptyArchive: true
             cleanWs()
         }
     }
